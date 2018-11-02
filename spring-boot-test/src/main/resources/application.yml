@@ -1,0 +1,14 @@
+server:
+  port: 8081
+
+#redis配置
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    pool:
+      max-idle: 100
+      min-idle: 1
+      max-active: 1000
+      max-wait: -1
