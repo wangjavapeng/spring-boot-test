@@ -21,7 +21,7 @@ import redis.clients.jedis.JedisPool;
 @Service
 public class RedisService {
 	
-private static final ThreadLocal<Integer> redisDatabaseHolder = new ThreadLocal<Integer>();
+	private static final ThreadLocal<Integer> redisDatabaseHolder = new ThreadLocal<Integer>();
 	
 	@Autowired
 	private JedisPool jedisPool;
@@ -116,7 +116,7 @@ private static final ThreadLocal<Integer> redisDatabaseHolder = new ThreadLocal<
 		try {
 			return jedis.exists(key);
 		} finally {
-			jedis.close();
+			returnResource(jedisPool, jedis);
 		}
 	}
 	
@@ -136,7 +136,7 @@ private static final ThreadLocal<Integer> redisDatabaseHolder = new ThreadLocal<
 			return jedis.get(key);
 		} finally {
 			//将连接返回到池中
-			jedis.close();
+			returnResource(jedisPool, jedis);
 		}
 	}
 	
@@ -151,7 +151,7 @@ private static final ThreadLocal<Integer> redisDatabaseHolder = new ThreadLocal<
 			jedis.set(key, value);
 		} finally {
 			//将连接返回到池中
-			jedis.close();
+			returnResource(jedisPool, jedis);
 		}
 	}
 	
@@ -175,7 +175,7 @@ private static final ThreadLocal<Integer> redisDatabaseHolder = new ThreadLocal<
 			Long rec = jedis.lpush(key, value.toArray(new String[value.size()]));
 			return rec;
 		} finally {
-			jedis.close();
+			returnResource(jedisPool, jedis);
 		}
 	}
 	
@@ -192,7 +192,7 @@ private static final ThreadLocal<Integer> redisDatabaseHolder = new ThreadLocal<
 		try {
 			return jedis.lrange(key, start, end);
 		} finally {
-			jedis.close();
+			returnResource(jedisPool, jedis);
 		}
 	}
 }
