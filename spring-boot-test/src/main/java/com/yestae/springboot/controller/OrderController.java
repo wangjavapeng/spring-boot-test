@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Lists;
+import com.yestae.springboot.annotation.LimitAnnotation;
 import com.yestae.springboot.service.RedisService;
 
 @RestController
@@ -43,11 +43,10 @@ public class OrderController {
 		return null;
     }
     
+	@LimitAnnotation(bizType="user", limit="5", sec=60)
     @RequestMapping("/get")
-    public Long get(){
-    	redisService.selectDb(3);
-    	Long lpush = redisService.lpush("list", Lists.newArrayList("1", "2"));
-    	return lpush;
+    public String get(){
+    	return redisService.get("act_end_time");
     } 
     
 }
