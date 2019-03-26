@@ -62,7 +62,7 @@ public class LimitAop {
 //         		out.print("aop拦截，操作太频繁啦。。。");
 //         		out.flush();
 //         		out.close();
-            	return "ip: " + ip + " aop拦截，操作太频繁啦。。。";
+            	return "ip: " + ip + " aop拦截，操作太频繁啦，请一分钟后再试。。。";
              }
         }
         //处理目标

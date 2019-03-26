@@ -41,7 +41,7 @@
 //            		response.setHeader("Pragma", "no-cache");
 //            		response.setDateHeader("Expires", 0);
 //            		PrintWriter out = response.getWriter();
-//            		out.print("ip: " + ip + " 拦截器拦截，操作太频繁啦。。。");
+//            		out.print("ip: " + ip + " aop拦截，操作太频繁啦，请一分钟后再试。。。");
 //            		out.flush();
 //            		out.close();
 //            		return false;
