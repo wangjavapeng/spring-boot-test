@@ -10,8 +10,8 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.ReflectUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -36,19 +36,9 @@ public class LimitAop {
 	
 	@Around("limit()")
 	public Object before(ProceedingJoinPoint point) throws Throwable{
-        // 返回目标对象
-        Object target = point.getTarget();
-        String targetName = target.getClass().getName();
         // 返回当前连接点签名
-        String methodName = point.getSignature().getName();
-        // 获得参数列表
-        Object[] arguments = point.getArgs();
-
-        Class<?> targetClass = Class.forName(targetName);
-        // 获取参数类型数组
-        Class<?>[] argTypes = ReflectUtils.getClasses(arguments);
-        // 获取目标method,考虑方法的重载等问题
-        Method method = targetClass.getDeclaredMethod(methodName, argTypes);
+        MethodSignature signature = (MethodSignature)point.getSignature();
+        Method method = signature.getMethod();
         // 获取目标method上的限流注解@LimitAnnotation
         if (method.isAnnotationPresent(LimitAnnotation.class)) {
         	LimitAnnotation limiter = method.getAnnotation(LimitAnnotation.class);
