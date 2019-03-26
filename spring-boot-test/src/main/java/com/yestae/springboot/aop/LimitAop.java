@@ -45,10 +45,9 @@ public class LimitAop {
         Class<?>[] argTypes = ReflectUtils.getClasses(arguments);
         // 获取目标method,考虑方法的重载等问题
         Method method = targetClass.getDeclaredMethod(methodName, argTypes);
-        // 获取目标method上的限流注解@Limiter
+        // 获取目标method上的限流注解@LimitAnnotation
         if (method.isAnnotationPresent(LimitAnnotation.class)) {
         	LimitAnnotation limiter = method.getAnnotation(LimitAnnotation.class);
-            // 以 class + method + parameters为key，避免重载、重写带来的混乱
         	String bizType = limiter.bizType();	//接口业务类型
             String limit = limiter.limit();
             String sec = String.valueOf(limiter.sec());
