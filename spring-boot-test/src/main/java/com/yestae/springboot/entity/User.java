@@ -2,62 +2,72 @@ package com.yestae.springboot.entity;
 
 import java.io.Serializable;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import com.yestae.springboot.enums.UserSexEnum;
 
-/**
- * 配置文件属性注入
- * @author wangpeng
- *
- */
-@Configuration
-@PropertySource(value = {"classpath:properties/system.properties"})
-public class User implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4756548083755402967L;
-	
-	@Value("${user.id}")
-	private String id;
-	@Value("${user.age}")
-	private Integer age;
-	@Value("${user.name}")
-	private String name;
-	
-	public void init(){
-		System.err.println("user.init()");
-		System.err.println(this.id);
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private Long id;
+	private String userName;
+	private String passWord;
+	private UserSexEnum userSex;
+	private String nickName;
+
+	public User() {
+		super();
 	}
-	
-	public void destory(){
-		System.err.println("user.destory()");
+
+	public User(String userName, String passWord, UserSexEnum userSex) {
+		super();
+		this.passWord = passWord;
+		this.userName = userName;
+		this.userSex = userSex;
 	}
-	
-	public String getId() {
+
+	public Long getId() {
 		return id;
 	}
-//	public void setId(String id) {
-//		this.id = id;
-//	}
-	public Integer getAge() {
-		return age;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public void setAge(Integer age) {
-		this.age = age;
+
+	public String getUserName() {
+		return userName;
 	}
-	public String getName() {
-		return name;
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public String getPassWord() {
+		return passWord;
 	}
-	
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
+
+	public UserSexEnum getUserSex() {
+		return userSex;
+	}
+
+	public void setUserSex(UserSexEnum userSex) {
+		this.userSex = userSex;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("User [id=").append(id).append(", age=").append(age).append(", name=").append(name).append("]");
-		return builder.toString();
+		// TODO Auto-generated method stub
+		return "userName " + this.userName + ", pasword " + this.passWord + "sex " + userSex.name();
 	}
+
 }

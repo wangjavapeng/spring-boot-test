@@ -7,8 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.StateMachineFactory;
 
+import com.yestae.springboot.entity.User;
 import com.yestae.springboot.enums.Events;
 import com.yestae.springboot.enums.States;
+import com.yestae.springboot.enums.UserSexEnum;
+import com.yestae.springboot.mapper.BaseMapper;
+import com.yestae.springboot.mapper.test1.User1Mapper;
+import com.yestae.springboot.mapper.test2.User2Mapper;
 import com.yestae.springboot.rabbitmq.common.HelloSender;
 import com.yestae.springboot.rabbitmq.topic.TopicSender;
 
@@ -30,6 +35,11 @@ public class App implements CommandLineRunner{
 	//状态机工厂，可以生成多个状态机实例
 	@Autowired
     StateMachineFactory<States, Events> factory;
+	
+	@Autowired
+	private User1Mapper user1Mapper;
+	@Autowired
+	private User2Mapper user2Mapper;
 	
     public static void main( String[] args ){
     	SpringApplication.run(App.class);
@@ -55,9 +65,16 @@ public class App implements CommandLineRunner{
 //        stateMachine2.sendEvent(Events.PUSH);
 //        stateMachine2.stop();
 		
-		topicSender.send();
-		topicSender.send1();
-		topicSender.send2();
+		//topic交换机
+//		topicSender.send();
+//		topicSender.send1();
+//		topicSender.send2();
+		
+		//多数据源配置
+		//获取数据源
+		int n = 10;
+		BaseMapper mapper = n % 2 == 0 ? user1Mapper : user2Mapper;
+		mapper.insert(new User("haha", "123", UserSexEnum.MAN));
 	}
     
 }
