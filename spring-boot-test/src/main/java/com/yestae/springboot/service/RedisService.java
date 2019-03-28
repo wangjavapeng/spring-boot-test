@@ -21,10 +21,12 @@ import redis.clients.jedis.JedisPool;
 @Service
 public class RedisService {
 	
-	private static final ThreadLocal<Integer> redisDatabaseHolder = new ThreadLocal<Integer>();
+	private final ThreadLocal<Integer> redisDatabaseHolder = new ThreadLocal<Integer>();
 	
+	//在RedisConfig中配置的实例
 	@Autowired
 	private JedisPool jedisPool;
+	
 	/**
 	 * 获取Jedis实例
 	 * 
@@ -53,14 +55,14 @@ public class RedisService {
 	 * 
 	 * @param redisDatabase
 	 */
-	public static void setDatabase(Integer redisDatabase) {
+	public void setDatabase(Integer redisDatabase) {
 		redisDatabaseHolder.set(redisDatabase);
 	}
 
 	/**
 	 * 清空当前Redis db
 	 */
-	public static void clearDatabase() {
+	public void clearDatabase() {
 		redisDatabaseHolder.remove();
 	}
 
@@ -69,7 +71,7 @@ public class RedisService {
 	 * 
 	 * @return
 	 */
-	private static Integer getDatabase() {
+	private Integer getDatabase() {
 		return redisDatabaseHolder.get();
 	}
 	
@@ -79,7 +81,7 @@ public class RedisService {
 	 * @param jedisPool
 	 * @param redis
 	 */
-	public static void returnResource(JedisPool jedisPool, Jedis jedis) {
+	public void returnResource(JedisPool jedisPool, Jedis jedis) {
 		if (jedis != null) {
 			// jedisPool.close();
 			jedis.close();
