@@ -10,6 +10,7 @@ import org.springframework.statemachine.config.StateMachineFactory;
 import com.yestae.springboot.enums.Events;
 import com.yestae.springboot.enums.States;
 import com.yestae.springboot.rabbitmq.common.HelloSender;
+import com.yestae.springboot.rabbitmq.topic.TopicSender;
 
 /**
  *	CommandLineRunner 实现该接口的run方法，可以作相应的操作
@@ -18,6 +19,9 @@ import com.yestae.springboot.rabbitmq.common.HelloSender;
 public class App implements CommandLineRunner{
 	@Autowired
 	private HelloSender helloSender;
+	
+	@Autowired
+	private TopicSender topicSender;
 	
 	//只有一个实例
 	@Autowired
@@ -36,7 +40,7 @@ public class App implements CommandLineRunner{
 	@Override
 	public void run(String... arg0) throws Exception {
 		//mq消息
-		helloSender.send();
+//		helloSender.send();
 		
 		//状态机
 //		StateMachine<States,Events> stateMachine2 = factory.getStateMachine("StateMachineFactory");
@@ -50,6 +54,10 @@ public class App implements CommandLineRunner{
 //        System.out.println("--- push ---");
 //        stateMachine2.sendEvent(Events.PUSH);
 //        stateMachine2.stop();
+		
+		topicSender.send();
+		topicSender.send1();
+		topicSender.send2();
 	}
     
 }
