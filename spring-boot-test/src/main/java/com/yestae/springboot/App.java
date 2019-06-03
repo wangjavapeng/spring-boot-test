@@ -4,22 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.StateMachineFactory;
 
-import com.yestae.springboot.entity.User;
+import com.google.common.eventbus.EventBus;
 import com.yestae.springboot.enums.Events;
 import com.yestae.springboot.enums.States;
-import com.yestae.springboot.enums.UserSexEnum;
-import com.yestae.springboot.mapper.BaseMapper;
 import com.yestae.springboot.mapper.test1.User1Mapper;
 import com.yestae.springboot.mapper.test2.User2Mapper;
 import com.yestae.springboot.rabbitmq.common.HelloSender;
 import com.yestae.springboot.rabbitmq.topic.TopicSender;
+import com.yestae.springboot.service.RedisService;
 
 /**
  *	CommandLineRunner 实现该接口的run方法，可以作相应的操作
  */
+@EnableScheduling
 @SpringBootApplication
 public class App implements CommandLineRunner{
 	@Autowired
@@ -41,6 +42,12 @@ public class App implements CommandLineRunner{
 	@Autowired
 	private User2Mapper user2Mapper;
 	
+	@Autowired
+	private EventBus asyncEventBus;
+	
+	@Autowired
+	private RedisService redisService;
+	
     public static void main( String[] args ){
     	SpringApplication.run(App.class);
     	//测试bean被销毁
@@ -52,19 +59,6 @@ public class App implements CommandLineRunner{
 		//mq消息
 //		helloSender.send();
 		
-		//状态机
-//		StateMachine<States,Events> stateMachine2 = factory.getStateMachine("StateMachineFactory");
-//    	stateMachine2.start();
-//        System.out.println("--- coin ---");
-//        stateMachine2.sendEvent(Events.COIN);
-//        System.out.println("--- coin ---");
-//        stateMachine.sendEvent(Events.COIN);
-//        System.out.println("--- push ---");
-//        stateMachine.sendEvent(Events.PUSH);
-//        System.out.println("--- push ---");
-//        stateMachine2.sendEvent(Events.PUSH);
-//        stateMachine2.stop();
-		
 		//topic交换机
 //		topicSender.send();
 //		topicSender.send1();
@@ -72,9 +66,9 @@ public class App implements CommandLineRunner{
 		
 		//多数据源配置
 		//获取数据源
-		int n = 10;
-		BaseMapper mapper = n % 2 == 0 ? user1Mapper : user2Mapper;
-		mapper.insert(new User("haha", "123", UserSexEnum.MAN));
+//		int n = 10;
+//		BaseMapper mapper = n % 2 == 0 ? user1Mapper : user2Mapper;
+//		mapper.insert(new User("haha", "123", UserSexEnum.MAN));
 	}
     
 }
