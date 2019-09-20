@@ -59,12 +59,15 @@ public class RabbitMQSender implements  RabbitTemplate.ConfirmCallback, RabbitTe
      */
     @Override
     public void returnedMessage(Message message, int i, String s, String s1, String s2) {
-        log.info(message.getMessageProperties().getCorrelationId()+ "，发送失败");
+        log.info("消息发送到RabbitMQ交换器，无相应队列与交换器绑定时的回调");
+        log.info("reson：" + s);
+        log.info("exchange：" + s1);
+        log.info("route：" + s2);
     }
 
     public void sendOrderMsg(String msg, Integer delay) {
         log.info("发送取消订单消息 : {}", msg);
-        rabbitTemplate.convertSendAndReceive("orderDelayDirectExchange", "kill_cancel_order_queue", msg, (message) ->{
+        rabbitTemplate.convertSendAndReceive("orderDelayDirectExchange", "kill_cancel_order_route", msg, (message) ->{
             String msgId = UuidUtils.uuid32();
             message.getMessageProperties().setMessageId(msgId);
             message.getMessageProperties().setDelay(delay);
