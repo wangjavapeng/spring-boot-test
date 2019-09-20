@@ -94,7 +94,7 @@ public class RabbitMqConfig {
 
     @Bean
     public Binding bindingCreateOrder() {
-        return BindingBuilder.bind(cancelOrderQueue()).to(directExchange()).with("kill_cancel_order_queue");
+        return BindingBuilder.bind(cancelOrderQueue()).to(directExchange()).with("kill_cancel_order_route");
     }
 
 
