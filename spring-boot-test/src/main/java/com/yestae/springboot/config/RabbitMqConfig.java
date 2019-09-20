@@ -69,7 +69,7 @@ public class RabbitMqConfig {
     }
 
     //*********************发送消息需要创建交换机，队列，然后交换机和队列绑定
-    // **********************rabbitTemplate.convertSendAndReceive("orderDelayDirectExchange", "kill_cancel_order_queue", msg) 在发送时指定发送队列及记交换机
+    // **********************rabbitTemplate.convertSendAndReceive("orderDelayDirectExchange", "kill_cancel_order_route", msg) 在发送时指定发送队列及记交换机
     /**
      * 创建延迟交换机
      *
